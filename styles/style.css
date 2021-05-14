@@ -1,5 +1,10 @@
+/*COULEURS*/
 * {
   font-family: "Lato", sans-serif;
+}
+
+body {
+  margin: 40px 100px;
 }
 
 header {
@@ -9,5 +14,146 @@ header {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+p,
+h3 {
+  margin: 0;
+}
+
+#logo {
+  margin-bottom: 17px;
+}
+
+/*SEARCHBAR*/
+#searchbarContainer {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+#searchbarContainer i {
+  position: absolute;
+  right: 120px;
+  font-size: 32px;
+}
+
+#searchbar {
+  width: 100%;
+  height: 69px;
+  border: none;
+  border-radius: 5px;
+  background-color: #e7e7e7;
+  font-size: 18px;
+  padding: 0 20px;
+}
+
+#searchbar::-webkit-input-placeholder {
+  color: black;
+  opacity: 0.25;
+}
+
+#searchbar:-ms-input-placeholder {
+  color: black;
+  opacity: 0.25;
+}
+
+#searchbar::-ms-input-placeholder {
+  color: black;
+  opacity: 0.25;
+}
+
+#searchbar::placeholder {
+  color: black;
+  opacity: 0.25;
+}
+
+#searchbar:focus {
+  outline: none;
+}
+
+/*SECTION RECETTES*/
+.recette {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr 1fr;
+      grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 50px 4%;
+  margin-top: 25px;
+}
+
+.recetteArticle {
+  height: 375px;
+  background-color: #e7e7e7;
+  border-radius: 5px;
+}
+
+.recetteImg {
+  background-color: #c7bebe;
+  height: 178px;
+  border-radius: 5px 5px 0px 0px;
+}
+
+.recetteText {
+  padding: 20px;
+  height: 186px;
+}
+
+.recetteTextTitle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  font-size: 18px;
+}
+
+.recetteTextTitleTime {
+  font-weight: bold;
+}
+
+.recetteTextDetails {
+  height: 124px;
+  margin-top: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.recetteTextDetailsIngredients {
+  width: 50%;
+  font-size: 12px;
+}
+
+.recetteTextDetailsDescription {
+  font-family: "Roboto", sans-serif;
+  width: 50%;
+  height: 99px;
+  font-size: 12px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 7;
+  overflow: hidden;
+}
+
+.ingredient {
+  font-weight: bold;
+}
+
+.quantity {
+  font-weight: 500;
 }
 /*# sourceMappingURL=style.css.map */
