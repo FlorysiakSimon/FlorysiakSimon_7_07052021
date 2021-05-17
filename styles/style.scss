@@ -112,3 +112,75 @@ h3 {
 .quantity {
   font-weight: 500;
 }
+
+/*SEARCH LIST */
+.List {
+  display: flex;
+  margin-top: 1em;
+}
+
+.searchList {
+  min-width: 170px;
+  box-sizing: border-box;
+  padding: 10px 19px;
+  border-radius: 5px;
+  height: 80%;
+  & ul {
+    display: none;
+  }
+  &Text {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    &Input {
+      display: none;
+      border: none;
+      height: 45px;
+      width: 100%;
+      font-weight: bold;
+      font-size: 18px;
+      color: white;
+      &::placeholder {
+        color: white;
+        opacity: 0.5;
+      }
+      &:focus {
+        outline: none;
+      }
+    }
+    &Name {
+      font-weight: bold;
+      font-size: 18px;
+      color: white;
+      line-height: 47px;
+    }
+  }
+}
+#ingredients {
+  background-color: $blue;
+  &List {
+  }
+  &Search {
+    background-color: $blue;
+  }
+}
+
+#appareils {
+  background-color: $green;
+  margin: 0 20px;
+  &Search {
+    background-color: $green;
+  }
+}
+
+#ustensiles {
+  background-color: $red;
+  &Search {
+    background-color: $red;
+  }
+}
+
+.arrow {
+  color: white;
+}

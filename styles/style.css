@@ -156,4 +156,107 @@ h3 {
 .quantity {
   font-weight: 500;
 }
+
+/*SEARCH LIST */
+.List {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-top: 1em;
+}
+
+.searchList {
+  min-width: 170px;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px 19px;
+  border-radius: 5px;
+  height: 80%;
+}
+
+.searchList ul {
+  display: none;
+}
+
+.searchListText {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
+.searchListTextInput {
+  display: none;
+  border: none;
+  height: 45px;
+  width: 100%;
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+}
+
+.searchListTextInput::-webkit-input-placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.searchListTextInput:-ms-input-placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.searchListTextInput::-ms-input-placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.searchListTextInput::placeholder {
+  color: white;
+  opacity: 0.5;
+}
+
+.searchListTextInput:focus {
+  outline: none;
+}
+
+.searchListTextName {
+  font-weight: bold;
+  font-size: 18px;
+  color: white;
+  line-height: 47px;
+}
+
+#ingredients {
+  background-color: #3282f7;
+}
+
+#ingredientsSearch {
+  background-color: #3282f7;
+}
+
+#appareils {
+  background-color: #68d9a4;
+  margin: 0 20px;
+}
+
+#appareilsSearch {
+  background-color: #68d9a4;
+}
+
+#ustensiles {
+  background-color: #ed6454;
+}
+
+#ustensilesSearch {
+  background-color: #ed6454;
+}
+
+.arrow {
+  color: white;
+}
 /*# sourceMappingURL=style.css.map */

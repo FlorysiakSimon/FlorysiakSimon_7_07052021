@@ -13,6 +13,33 @@ export class recipes {
 
     }
 
+    dropdown(){
+        const searchList = document.querySelectorAll(".searchList");
+        const searchListText = document.querySelectorAll(".searchListText");
+        for (let i = 0; i < searchList.length; i++) {
+            searchList[i].addEventListener('click', () => {
+				console.log(searchList[i].childNodes)
+                console.log(searchListText[i].childNodes)
+
+                searchList[i].classList.toggle('open');
+                if  (searchList[i].classList.contains('open')){
+                    searchListText[i].childNodes[1].style.display = "block";
+                    searchListText[i].childNodes[3].style.display = "none";
+                    searchListText[i].childNodes[5].style.transform = "rotate(180deg)";
+                    searchList[i].childNodes[3].style.display = "block";
+                }
+                else {
+                    searchListText[i].childNodes[1].style.display = "none";
+                    searchListText[i].childNodes[3].style.display = "block";
+                    searchListText[i].childNodes[5].style.transform = "rotate(360deg)";
+                    searchList[i].childNodes[3].style.display = "none";
+                }
+			});
+          }
+
+       
+    }
+
     toHTML(){
         this.recipesSection.innerHTML += ` <article class="recetteArticle">
                     <div class="recetteImg"></div>
