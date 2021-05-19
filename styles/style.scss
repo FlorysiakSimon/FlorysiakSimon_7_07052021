@@ -17,11 +17,30 @@ ul {
   padding: 0;
   margin: 0;
   list-style: none;
+  grid-template-rows: repeat(10, auto);
+  grid-template-columns: repeat(2, minmax(auto, 50%));
+  grid-auto-flow: column;
 }
 
 p,
 h3 {
   margin: 0;
+}
+
+button {
+  border: none;
+  color: white;
+  font-size: 18px;
+  line-height: 21px;
+  font-weight: 400;
+  height: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  margin-bottom: 3px;
+  &:hover {
+    color: black;
+  }
 }
 
 #logo {
@@ -157,11 +176,16 @@ h3 {
     }
   }
 }
+
+/*DROPDOWN MENUS */
 #ingredients {
   background-color: $blue;
   &List {
   }
   &Search {
+    background-color: $blue;
+  }
+  & button {
     background-color: $blue;
   }
 }
@@ -172,11 +196,17 @@ h3 {
   &Search {
     background-color: $green;
   }
+  & button {
+    background-color: $green;
+  }
 }
 
 #ustensiles {
   background-color: $red;
   &Search {
+    background-color: $red;
+  }
+  & button {
     background-color: $red;
   }
 }
