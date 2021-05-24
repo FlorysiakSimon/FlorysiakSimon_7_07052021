@@ -1,6 +1,8 @@
 export class recipes {
     constructor(data){
-        //this.recettes = data;
+        this.recettes = data;
+        this.ust = [];
+        this.appareil = []
         this.id = data.id;
         this.name = data.name;
         this.servings = data.servings;
@@ -23,8 +25,6 @@ export class recipes {
         const searchListText = document.querySelectorAll(".searchListText");
         for (let i = 0; i < searchList.length; i++) {
             searchList[i].addEventListener('click', () => {
-				//console.log(searchList[i].childNodes)
-                //console.log(searchListText[i].childNodes)
                 searchList[i].classList.toggle('open');
                 if  (searchList[i].classList.contains('open')){
                     searchListText[i].childNodes[1].style.display = "block";
@@ -44,17 +44,16 @@ export class recipes {
     }
 
     search(){
-        
         const searchBar = document.getElementById("searchbar")
-        searchBar.addEventListener("keypress", myFunction);
-
-        function myFunction() {
-            if (searchBar.value.length > 1){
-            console.log('test');
+        
+        searchBar.addEventListener('keyup', () => {
+            if (searchBar.value.length > 2){
+                var inputVal = document.getElementById("searchbar").value;
+                console.log(inputVal);
             }
-        }
-
+        });
     }
+    
     toHTML(){
         this.recipesSection.innerHTML += ` <article class="recetteArticle">
                     <div class="recetteImg"></div>
@@ -73,35 +72,35 @@ export class recipes {
                 </article>
         `
     }
+
+
     toHTMLList(){
         /*const ustensiles = document.getElementById("ustensilesList");
         const appareils = document.getElementById("appareilsList");
         const ingredients = document.getElementById("ingredientsList");
         console.log(ustensiles,appareils,ingredients)*/
+       /* 
+        this.test = this.ustensils.map(ustensil => ustensil);
+        console.log(this.test)*/
+        
+
+       /* this.appareil.push(this.appliance);
+        console.log(this.appareil)*/
 
         this.appareilsList.innerHTML += `<li class="appareilsListItem">
-                                        <button class="button">${this.appliance}</button>
-                                    </li>`
+                                            <button class="button">${this.appliance}</button>
+                                        </li>`
 
         this.ingredientsList.innerHTML += `${this.ingredients.map(ingredient => `<li class="ingredientsListItem"><button class="button">${ingredient.ingredient}</button></li>`).join('')}`
 		
-       this.ustensilesList.innerHTML += `${this.ustensils.map(ustensil => `<li class="ustensilesListItem"><button class="button">${ustensil}</button></li>`).join('')}`
+        this.ustensilesList.innerHTML += `${this.ustensils.map(ustensil => `<li class="ustensilesListItem"><button class="button">${ustensil}</button></li>`).join('')}`
 
     }
+    
+    
 
-    filterDuplicate(media,value) {
-        this.media = media;
-        this.cleanGallery();
-        switch (value)
-            {
-                case "Popularity":
-                this.media.sort((a, b) => b.likes - a.likes); // trie par like
-                break
-                case "Date":
-                this.media.sort((a,b) =>  new Date(b.date) - new Date(a.date)); // trie selon la date 
-                break
-                case "Title":
-                this.media.sort((a, b) => a.alt.localeCompare(b.alt, 'fr', {ignorePunctuation: true})); //trie par titre
-            }
-    }
+    filterData(arr,value){
+        return arr.filter(el =>  el.toLowerCase().indexOf(value.toLowerCase()) !== -1);
+    }   
+     
 }

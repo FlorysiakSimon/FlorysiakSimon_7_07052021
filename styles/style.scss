@@ -76,6 +76,11 @@ button {
 }
 
 /*SECTION RECETTES*/
+
+#empty {
+  display: none;
+}
+
 .recette {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;

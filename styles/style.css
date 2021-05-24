@@ -104,6 +104,10 @@ button:hover {
 }
 
 /*SECTION RECETTES*/
+#empty {
+  display: none;
+}
+
 .recette {
   display: -ms-grid;
   display: grid;
