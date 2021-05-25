@@ -77,22 +77,27 @@ button {
 
 /*SECTION RECETTES*/
 
-#empty {
-  display: none;
-}
-
 .recette {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 50px 4%;
   margin-top: 25px;
+  &Empty {
+    width: 1000px;
+  }
   &Article {
     height: 375px;
-    background-color: #e7e7e7;
+    background-color: white;
     border-radius: 5px;
+    box-shadow: 0 0 16px #0000002e;
+    transition-duration: 0.1s;
+    &:hover {
+      transform: scale(1.01);
+      box-shadow: 0 0 16px #00000048;
+    }
   }
   &Img {
-    background-color: #c7bebe;
+    background-color: #edf8ff;
     height: 178px;
     border-radius: 5px 5px 0px 0px;
   }
@@ -156,7 +161,6 @@ button {
     display: flex;
     align-items: center;
     justify-content: space-between;
-
     &Input {
       display: none;
       border: none;

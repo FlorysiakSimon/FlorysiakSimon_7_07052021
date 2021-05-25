@@ -104,10 +104,6 @@ button:hover {
 }
 
 /*SECTION RECETTES*/
-#empty {
-  display: none;
-}
-
 .recette {
   display: -ms-grid;
   display: grid;
@@ -117,14 +113,29 @@ button:hover {
   margin-top: 25px;
 }
 
+.recetteEmpty {
+  width: 1000px;
+}
+
 .recetteArticle {
   height: 375px;
-  background-color: #e7e7e7;
+  background-color: white;
   border-radius: 5px;
+  -webkit-box-shadow: 0 0 16px #0000002e;
+          box-shadow: 0 0 16px #0000002e;
+  -webkit-transition-duration: 0.1s;
+          transition-duration: 0.1s;
+}
+
+.recetteArticle:hover {
+  -webkit-transform: scale(1.01);
+          transform: scale(1.01);
+  -webkit-box-shadow: 0 0 16px #00000048;
+          box-shadow: 0 0 16px #00000048;
 }
 
 .recetteImg {
-  background-color: #c7bebe;
+  background-color: #edf8ff;
   height: 178px;
   border-radius: 5px 5px 0px 0px;
 }
