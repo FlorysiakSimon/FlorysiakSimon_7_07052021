@@ -20,11 +20,11 @@ ul {
   padding: 0;
   margin: 0;
   list-style: none;
-  -ms-grid-rows: (auto)[10];
-      grid-template-rows: repeat(10, auto);
-  -ms-grid-columns: (minmax(auto, 50%))[2];
-      grid-template-columns: repeat(2, minmax(auto, 50%));
-  grid-auto-flow: column;
+  overflow: hidden;
+}
+
+ul li {
+  width: 100%;
 }
 
 p,
@@ -128,10 +128,8 @@ button:hover {
 }
 
 .recetteArticle:hover {
-  -webkit-transform: scale(1.01);
-          transform: scale(1.01);
-  -webkit-box-shadow: 0 0 16px #00000048;
-          box-shadow: 0 0 16px #00000048;
+  -webkit-box-shadow: 0 0 26px #00000048;
+          box-shadow: 0 0 26px #00000048;
 }
 
 .recetteImg {
@@ -273,17 +271,42 @@ button:hover {
   background-color: #3282f7;
 }
 
+#ingredientsList {
+  -ms-grid-rows: (auto)[10];
+      grid-template-rows: repeat(10, auto);
+  -ms-grid-columns: (minmax(auto, 33.33%))[3];
+      grid-template-columns: repeat(3, minmax(auto, 33.33%));
+  max-height: calc(10 * 1.6rem + 0.5rem + 1.25rem);
+  /*  max-width: calc(3 * 13.6125rem + 2 * 0.5rem);
+    min-width: 13.6125rem;
+    width: unset; */
+}
+
 #ingredientsSearch {
   background-color: #3282f7;
 }
 
 #ingredients button {
   background-color: #3282f7;
+  height: 100%;
+  width: 100%;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 #appareils {
   background-color: #68d9a4;
   margin: 0 20px;
+}
+
+#appareilsList {
+  -ms-grid-rows: (auto)[12];
+      grid-template-rows: repeat(12, auto);
+  -ms-grid-columns: (minmax(auto, 50%))[2];
+      grid-template-columns: repeat(2, minmax(auto, 50%));
+  grid-auto-flow: column;
 }
 
 #appareilsSearch {
@@ -296,6 +319,14 @@ button:hover {
 
 #ustensiles {
   background-color: #ed6454;
+}
+
+#ustensilesList {
+  -ms-grid-rows: (auto)[10];
+      grid-template-rows: repeat(10, auto);
+  -ms-grid-columns: (minmax(auto, 50%))[2];
+      grid-template-columns: repeat(2, minmax(auto, 50%));
+  grid-auto-flow: column;
 }
 
 #ustensilesSearch {
