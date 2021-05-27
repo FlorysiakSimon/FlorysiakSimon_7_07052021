@@ -7,11 +7,15 @@ const ingredientsList = document.getElementById("ingredientsList");
 const buttons = document.getElementsByClassName('buttons');
 const searchListTextInput = document.querySelectorAll('.searchListTextInput');
 let data = []; // data
+let allAppliance = []; //tableau appareils
 let appliance = []; //tableau appareils
+let allIngredients= [];
 let ingredients = []; //tableau ingredients
 let ingredientsFilter= []; //tableau ingredients filtré
+let allUstensils = []
 let ustensils = []; //tableau ustensiles
 let ustensilsFilter = []; //tableau ustensiles filtré
+
 
 //FILTER 
 let uniq = unique => [...new Set(unique)];
@@ -25,7 +29,7 @@ searchBar.addEventListener('keyup', (e) => {
   const filteredData = data.recipes.filter((recipe) => {
     return (
         recipe.name.toLowerCase().includes(searchString) ||
-        //recipe.ingredients.toLowerCase().includes(searchString) ||
+        allIngredients.includes(searchString) ||
         recipe.description.toLowerCase().includes(searchString)
     );
   });
@@ -42,12 +46,11 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   if(value === 'ingredients'){
     ingredientsList.innerHTML = '';
     data.recipes.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
-    var merged = [].concat.apply([], ingredients); // fusionne array
-    merged = uniq(merged); // filter duplicate
-    ingredientsFilter.push(filtreTexte(merged,searchString));
-    merged = [].concat.apply([], ingredientsFilter); // fusionne array
-    merged = uniq(merged); // filter duplicate
-    merged.forEach(list => {ingredientsList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
+    ingredients = [].concat.apply([], ingredients); // fusionne array
+    ingredients = uniq(ingredients); // filter duplicate
+    ingredientsFilter.push(filtreTexte(ingredients,searchString));
+    ingredientsFilter = [].concat.apply([], ingredientsFilter); // fusionne array
+    ingredientsFilter.forEach(list => {ingredientsList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
     ingredientsFilter = [];
   }
   if(value === 'appareils'){
@@ -57,12 +60,11 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   if(value === 'ustensiles'){
     ustensilesList.innerHTML = '';
     data.recipes.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
-    var mergedUstentils = [].concat.apply([], ustensils); // fusionne array
-    mergedUstentils = uniq(mergedUstentils); // filter duplicate
-    ustensilsFilter.push(filtreTexte(mergedUstentils,searchString));
-    mergedUstentils = [].concat.apply([], ustensilsFilter); // fusionne array
-    mergedUstentils = uniq(mergedUstentils); // filter duplicate
-    mergedUstentils.forEach(list => {ustensilesList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
+    ustensils = [].concat.apply([], ustensils); // fusionne array
+    ustensils = uniq(ustensils); // filter duplicate
+    ustensilsFilter.push(filtreTexte(ustensils,searchString));
+    ustensilsFilter = [].concat.apply([], ustensilsFilter); // fusionne array
+    ustensilsFilter.forEach(list => {ustensilesList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
     ustensilsFilter = [];
   }
 }));
@@ -79,11 +81,23 @@ const loadData = async () => {
       displayAppliance(recettes);
       displayIngredients(recettes);
       displayUstensiles(recettes);
+      allArray(recettes)
 
   } catch (err) {
       console.error(err);
   }
 };
+
+const allArray = (array) => {
+  array.map((recipe) => {allIngredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))}); //push data in array
+  allIngredients = [].concat.apply([], allIngredients); 
+  allIngredients = uniq(allIngredients); // filter duplicate
+  array.map((recipe) => {allAppliance.push(recipe.appliance)}); //push data in array
+  allAppliance = uniq(allAppliance); // filter duplicate
+  array.map((recipe) => {allUstensils.push(recipe.ustensils)}); //push data in array   
+  allUstensils = [].concat.apply([], allUstensils); 
+  allUstensils = uniq(allUstensils); // filter duplicate
+ }
 
 const displayRecettes = (article) => {
   const htmlString = article
