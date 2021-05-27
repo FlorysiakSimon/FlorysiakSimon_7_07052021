@@ -278,9 +278,6 @@ button:hover {
   -ms-grid-columns: 0.5fr 0.5fr 0.5fr;
       grid-template-columns: 0.5fr 0.5fr 0.5fr;
   max-height: calc(10 * 1.6rem + 0.5rem + 1.25rem);
-  /*  max-width: calc(3 * 13.6125rem + 2 * 0.5rem);
-    min-width: 13.6125rem;
-    width: unset; */
 }
 
 #ingredientsSearch {

@@ -192,12 +192,8 @@ button {
   background-color: $blue;
   &List {
     grid-template-rows: repeat(10, auto);
-    //grid-template-columns: repeat(3, minmax(auto, 33.33%));
     grid-template-columns: 0.5fr 0.5fr 0.5fr;
     max-height: calc(10 * 1.6rem + 0.5rem + 1.25rem);
-    /*  max-width: calc(3 * 13.6125rem + 2 * 0.5rem);
-    min-width: 13.6125rem;
-    width: unset; */
   }
   &Search {
     background-color: $blue;
