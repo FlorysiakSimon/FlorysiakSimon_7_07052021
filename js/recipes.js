@@ -103,4 +103,23 @@ export class recipes {
         return arr.filter(el =>  el.toLowerCase().indexOf(value.toLowerCase()) !== -1);
     }   
      
+
+    sortMedia(media,value) {
+        this.media = media;
+        this.cleanGallery();
+        switch (value)
+            {
+                case "ingredients":
+                   
+                    console.log(value);
+                break
+                case "appareils":
+                    return (
+                        recipe.appliance.toLowerCase().includes(searchString) 
+                    );
+                   // console.log(value);
+                case "ustensiles":
+                    console.log(value);
+            }
+    }
 }

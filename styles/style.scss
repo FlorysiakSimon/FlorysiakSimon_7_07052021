@@ -82,7 +82,7 @@ button {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 50px 4%;
-  margin-top: 25px;
+  margin-top: 9em;
   &Empty {
     width: 1000px;
   }
@@ -97,7 +97,7 @@ button {
     }
   }
   &Img {
-    background-color: #edf8ff;
+    background-color: #d4f5fd;
     height: 178px;
     border-radius: 5px 5px 0px 0px;
   }
@@ -146,6 +146,7 @@ button {
 .List {
   display: flex;
   margin-top: 1em;
+  position: absolute;
 }
 
 .searchList {
@@ -191,7 +192,8 @@ button {
   background-color: $blue;
   &List {
     grid-template-rows: repeat(10, auto);
-    grid-template-columns: repeat(3, minmax(auto, 33.33%));
+    //grid-template-columns: repeat(3, minmax(auto, 33.33%));
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
     max-height: calc(10 * 1.6rem + 0.5rem + 1.25rem);
     /*  max-width: calc(3 * 13.6125rem + 2 * 0.5rem);
     min-width: 13.6125rem;

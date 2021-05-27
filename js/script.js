@@ -1,5 +1,3 @@
-//IMPORT
-//import {recipes} from "./recipes.js"
 //DOM
 const appareilsList = document.getElementById("appareilsList");
 const searchBar = document.getElementById("searchbar");
@@ -11,12 +9,15 @@ const searchListTextInput = document.querySelectorAll('.searchListTextInput');
 let data = []; // data
 let appliance = []; //tableau appareils
 let ingredients = []; //tableau ingredients
+let ingredientsFilter= []; //tableau ingredients filtré
 let ustensils = []; //tableau ustensiles
-//var article = undefined;
+let ustensilsFilter = []; //tableau ustensiles filtré
 
-//FILTER DUPLICATE
+//FILTER 
 let uniq = unique => [...new Set(unique)];
-
+const filtreTexte = (arr, requete) => {
+  return arr.filter(el =>  el.toLowerCase().indexOf(requete.toLowerCase()) !== -1);
+}
 
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
@@ -38,9 +39,32 @@ searchBar.addEventListener('keyup', (e) => {
 searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   const value = e.target.getAttribute("data-value") ;
   const searchString = e.target.value.toLowerCase();  
-  console.log(value)
-  console.log(searchString);
-  
+  if(value === 'ingredients'){
+    ingredientsList.innerHTML = '';
+    data.recipes.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
+    var merged = [].concat.apply([], ingredients); // fusionne array
+    merged = uniq(merged); // filter duplicate
+    ingredientsFilter.push(filtreTexte(merged,searchString));
+    merged = [].concat.apply([], ingredientsFilter); // fusionne array
+    merged = uniq(merged); // filter duplicate
+    merged.forEach(list => {ingredientsList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
+    ingredientsFilter = [];
+  }
+  if(value === 'appareils'){
+    const filteredData = data.recipes.filter((recipe) =>recipe.appliance.toLowerCase().includes(searchString));
+    displayAppliance(filteredData)
+  }
+  if(value === 'ustensiles'){
+    ustensilesList.innerHTML = '';
+    data.recipes.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
+    var mergedUstentils = [].concat.apply([], ustensils); // fusionne array
+    mergedUstentils = uniq(mergedUstentils); // filter duplicate
+    ustensilsFilter.push(filtreTexte(mergedUstentils,searchString));
+    mergedUstentils = [].concat.apply([], ustensilsFilter); // fusionne array
+    mergedUstentils = uniq(mergedUstentils); // filter duplicate
+    mergedUstentils.forEach(list => {ustensilesList.innerHTML += `<li class="appareilsListItem"><button class="button">`+list+`</button></li>`})  
+    ustensilsFilter = [];
+  }
 }));
 
 //event buttons
@@ -92,10 +116,7 @@ const displayRecettes = (article) => {
 const displayAppliance = (list) => {
   list.map((recipe) => {appliance.push(recipe.appliance)}); //push data in array
   appliance = uniq(appliance); // filter duplicate
-  const htmlAppliance = appliance
-  .map((list) =>{
-    return `<li class="appareilsListItem"><button class="buttons" value="${list}">${list}</button></li>`})
-  .join('');
+  const htmlAppliance = appliance.map((list) =>{return `<li class="appareilsListItem"><button class="buttons" value="${list}">${list}</button></li>`}).join('');
   appareilsList.innerHTML = htmlAppliance;
   appliance = []; //reset array
 }
@@ -104,10 +125,7 @@ const displayIngredients = (list) => {
   list.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))}); //push data in array
   var merged = [].concat.apply([], ingredients); // fusionne array
   merged = uniq(merged); // filter duplicate
-  const htmlIngredients = merged 
-  .map((merged) =>{
-    return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`})
-  .join('');
+  const htmlIngredients = merged.map((merged) =>{return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`}).join('');
    ingredientsList.innerHTML = htmlIngredients;
    ingredients = []; //reset array
  }
@@ -116,15 +134,9 @@ const displayIngredients = (list) => {
   list.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
   var merged = [].concat.apply([], ustensils); // fusionne array
   merged = uniq(merged); // filter duplicate
-  const htmlUstensiles = merged
-  .map((merged) =>{
-    return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`})
-  .join('');
+  const htmlUstensiles = merged.map((merged) =>{return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`}).join('');
   ustensilesList.innerHTML = htmlUstensiles;
   ustensils = []; //reset array
  }
 
-
-loadData();    
-
-    
+loadData();

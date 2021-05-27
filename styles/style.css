@@ -110,7 +110,7 @@ button:hover {
   -ms-grid-columns: 1fr 1fr 1fr;
       grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 50px 4%;
-  margin-top: 25px;
+  margin-top: 9em;
 }
 
 .recetteEmpty {
@@ -133,7 +133,7 @@ button:hover {
 }
 
 .recetteImg {
-  background-color: #edf8ff;
+  background-color: #d4f5fd;
   height: 178px;
   border-radius: 5px 5px 0px 0px;
 }
@@ -198,6 +198,7 @@ button:hover {
   display: -ms-flexbox;
   display: flex;
   margin-top: 1em;
+  position: absolute;
 }
 
 .searchList {
@@ -274,8 +275,8 @@ button:hover {
 #ingredientsList {
   -ms-grid-rows: (auto)[10];
       grid-template-rows: repeat(10, auto);
-  -ms-grid-columns: (minmax(auto, 33.33%))[3];
-      grid-template-columns: repeat(3, minmax(auto, 33.33%));
+  -ms-grid-columns: 0.5fr 0.5fr 0.5fr;
+      grid-template-columns: 0.5fr 0.5fr 0.5fr;
   max-height: calc(10 * 1.6rem + 0.5rem + 1.25rem);
   /*  max-width: calc(3 * 13.6125rem + 2 * 0.5rem);
     min-width: 13.6125rem;
