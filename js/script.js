@@ -14,10 +14,10 @@ let applianceFilter = []; //tableau appareils filtré
 let allIngredients= [];
 let ingredients = []; //tableau ingredients
 let ingredientsFilter= []; //tableau ingredients filtré
-let allUstensils = []
+let allUstensils = [];
 let ustensils = []; //tableau ustensiles
 let ustensilsFilter = []; //tableau ustensiles filtré
-let filteredData = undefined
+let filteredData = undefined; 
 //FILTER 
 let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
@@ -34,11 +34,8 @@ searchBar.addEventListener('keyup', (e) => {
           recipe.description.toLowerCase().includes(searchString)
       );
     });
-    displayRecettes(filteredData);
-    displayAppliance(filteredData);
-    displayIngredients(filteredData);
-    displayUstensiles(filteredData);
-  }else{
+    displayAll(filteredData)   
+   }else{
     loadData();
   }
 });
@@ -46,38 +43,38 @@ searchBar.addEventListener('keyup', (e) => {
 //dropdown input
 searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   const value = e.target.getAttribute("data-value") ;
-  const searchString = e.target.value.toLowerCase();  
-  if(value === 'ingredients'){
-    ingredientsList.innerHTML = '';
-    filteredData.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
-    ingredients = [].concat.apply([], ingredients); // fusionne array
-    ingredients = uniq(ingredients); // filter duplicate
-    ingredientsFilter.push(filtreTexte(ingredients,searchString));
-    ingredientsFilter = [].concat.apply([], ingredientsFilter); // fusionne array
-    ingredientsFilter.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
-    ingredientsFilter = [];
-  }
-  if(value === 'appareils'){
-    //const filteredData = data.recipes.filter((recipe) =>recipe.appliance.toLowerCase().includes(searchString));
-    //displayAppliance(filteredData)
-    appareilsList.innerHTML = '';
-    filteredData.map((recipe) => {appliance.push(recipe.appliance)})
-    appliance = [].concat.apply([], appliance); // fusionne array
-    appliance = uniq(appliance); // filter duplicate
-    applianceFilter.push(filtreTexte(appliance,searchString));
-    applianceFilter = [].concat.apply([], applianceFilter); // fusionne array
-    applianceFilter.forEach(list => {appareilsList.innerHTML += `<li class="appareilsListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
-    applianceFilter = [];
-  }
-  if(value === 'ustensiles'){
-    ustensilesList.innerHTML = '';
-    filteredData.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
-    ustensils = [].concat.apply([], ustensils); // fusionne array
-    ustensils = uniq(ustensils); // filter duplicate
-    ustensilsFilter.push(filtreTexte(ustensils,searchString));
-    ustensilsFilter = [].concat.apply([], ustensilsFilter); // fusionne array
-    ustensilsFilter.forEach(list => {ustensilesList.innerHTML += `<li class="ustensilesListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
-    ustensilsFilter = [];
+  const searchString = e.target.value.toLowerCase();
+  switch (value) { 
+    case 'ingredients':
+      ingredientsList.innerHTML = '';
+      filteredData.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
+      ingredients = [].concat.apply([], ingredients); // fusionne array
+      ingredients = uniq(ingredients); // filter duplicate
+      ingredientsFilter.push(filtreTexte(ingredients,searchString));
+      ingredientsFilter = [].concat.apply([], ingredientsFilter); // fusionne array
+      ingredientsFilter.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button data-category="ingredients" value="`+list+`"class="buttons">`+list+`</button></li>`})  
+      ingredientsFilter = [];
+    break;
+    case 'appareils':
+      appareilsList.innerHTML = '';
+      filteredData.map((recipe) => {appliance.push(recipe.appliance)})
+      appliance = [].concat.apply([], appliance); // fusionne array
+      appliance = uniq(appliance); // filter duplicate
+      applianceFilter.push(filtreTexte(appliance,searchString));
+      applianceFilter = [].concat.apply([], applianceFilter); // fusionne array
+      applianceFilter.forEach(list => {appareilsList.innerHTML += `<li class="appareilsListItem"><button data-category="appareils" value="`+list+`"class="buttons">`+list+`</button></li>`})  
+      applianceFilter = [];
+    break;
+    case'ustensiles':
+      ustensilesList.innerHTML = '';
+      filteredData.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
+      ustensils = [].concat.apply([], ustensils); // fusionne array
+      ustensils = uniq(ustensils); // filter duplicate
+      ustensilsFilter.push(filtreTexte(ustensils,searchString));
+      ustensilsFilter = [].concat.apply([], ustensilsFilter); // fusionne array
+      ustensilsFilter.forEach(list => {ustensilesList.innerHTML += `<li class="ustensilesListItem"><button data-category="ustensiles" value="`+list+`"class="buttons">`+list+`</button></li>`})  
+      ustensilsFilter = [];
+    break;
   }
 }));
 
@@ -94,22 +91,47 @@ const loadData = async () => {
       const res = await fetch('./js/data.js');
       data = await res.json();
       const recettes = data.recipes
-      displayRecettes(recettes);
-      displayAppliance(recettes);
-      displayIngredients(recettes);
-      displayUstensiles(recettes);
+      displayAll(recettes)   
       allArray(recettes)
-      eventButton()
+      eventButton() 
   } catch (err) {
       console.error(err);
   }
 };
 
 const eventButton = () => {
+  let tagAppliance =[];
 
   for (let button of buttons) {
+    const category = button.getAttribute("data-category") ;
+ 
     button.addEventListener("click", function () {
-      tags.innerHTML += `<button class="buttonsTag" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+      switch (category) { 
+        case 'ingredients':
+          tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+        
+        break;
+        case 'appareils':
+          tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+          tagAppliance.push(this.value)
+          console.log(tagAppliance)
+          filteredData = data.recipes.filter((recipe) =>recipe.appliance.includes(tagAppliance));
+          displayAll(filteredData)   
+          break;
+        case 'ustensiles':
+          tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+        break;
+      }
+     /* filteredData = data.recipes.filter((recipe) => {
+        return (
+           // allIngredients.includes(searchString) ||
+            recipe.appliance.toLowerCase().includes(tagAppliance) 
+            //recipe.description.toLowerCase().includes(searchString)
+        );
+      });
+      */
+     // tags.innerHTML += `<button class="buttonsTag" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+    // const filteredData = data.recipes.filter((recipe) =>recipe.appliance.toLowerCase().includes(searchString));
 
     });
     
@@ -125,6 +147,13 @@ const allArray = (array) => {
   allUstensils = [].concat.apply([], allUstensils); 
   allUstensils = uniq(allUstensils); // filter duplicate
  }
+
+const displayAll = (array) => {
+  displayRecettes(array);
+  displayAppliance(array);
+  displayIngredients(array);
+  displayUstensiles(array);
+}
 
 const displayRecettes = (article) => {
   const htmlString = article
@@ -157,7 +186,7 @@ const displayRecettes = (article) => {
 const displayAppliance = (list) => {
   list.map((recipe) => {appliance.push(recipe.appliance)}); //push data in array
   appliance = uniq(appliance); // filter duplicate
-  const htmlAppliance = appliance.map((list) =>{return `<li class="appareilsListItem"><button onclick="" class="buttons" value="${list}">${list}</button></li>`}).join('');
+  const htmlAppliance = appliance.map((list) =>{return `<li class="appareilsListItem"><button data-category="appareils" class="buttons" value="${list}">${list}</button></li>`}).join('');
   appareilsList.innerHTML = htmlAppliance;
   appliance = []; //reset array
 }
@@ -166,7 +195,7 @@ const displayIngredients = (list) => {
   list.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))}); //push data in array
   var merged = [].concat.apply([], ingredients); // fusionne array
   merged = uniq(merged); // filter duplicate
-  const htmlIngredients = merged.map((merged) =>{return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`}).join('');
+  const htmlIngredients = merged.map((merged) =>{return `<li class="ingredientsListItem"><button data-category="ingredients" class="buttons" value="${merged}">${merged}</button></li>`}).join('');
    ingredientsList.innerHTML = htmlIngredients;
    ingredients = []; //reset array
  }
@@ -175,7 +204,7 @@ const displayIngredients = (list) => {
   list.map((recipe) => {ustensils.push(recipe.ustensils)}); //push data in array
   var merged = [].concat.apply([], ustensils); // fusionne array
   merged = uniq(merged); // filter duplicate
-  const htmlUstensiles = merged.map((merged) =>{return `<li class="appareilsListItem"><button class="buttons" value="${merged}">${merged}</button></li>`}).join('');
+  const htmlUstensiles = merged.map((merged) =>{return `<li class="ustensilesListItem"><button data-category="ustensiles" class="buttons" value="${merged}">${merged}</button></li>`}).join('');
   ustensilesList.innerHTML = htmlUstensiles;
   ustensils = []; //reset array
  }

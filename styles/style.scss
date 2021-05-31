@@ -91,7 +91,17 @@ button {
   align-items: center;
   margin-right: 10px;
   margin-bottom: 0.5rem;
+  &Ingredients {
+    background-color: $blue;
+  }
+  &Appareils {
+    background-color: $green;
+  }
+  &Ustensiles {
+    background-color: $red;
+  }
 }
+
 .close {
   margin-left: 1em;
   transition: transform 0.6s;
