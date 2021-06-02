@@ -5,7 +5,7 @@ const recipesSection = document.querySelector(".recette");
 const ustensilesList = document.getElementById("ustensilesList");
 const ingredientsList = document.getElementById("ingredientsList");
 const buttons = document.getElementsByClassName('buttons');
-//const buttonsTag = document.getElementsByClassName('buttonsTag')
+const buttonsTag = document.getElementsByClassName('buttonsTag')
 const searchListTextInput = document.querySelectorAll('.searchListTextInput');
 const tags = document.getElementById('tags');
 let data = []; // data
@@ -24,6 +24,7 @@ let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
   return arr.filter(el =>  el.toLowerCase().indexOf(requete.toLowerCase()) !== -1);
 }
+const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele != value;});}
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
   if (searchBar.value.length > 2){
@@ -31,7 +32,8 @@ searchBar.addEventListener('keyup', (e) => {
      filteredData = data.recipes.filter((recipe) => {
       return (
           recipe.name.toLowerCase().includes(searchString) ||
-          allIngredients.includes(searchString) ||
+          //allIngredients.includes(searchString) ||
+          recipe.ingredients.includes((ingredients) => ingredients.ingredient.includes(tagIngredients)) ||
           recipe.description.toLowerCase().includes(searchString)
       );
     });
@@ -97,8 +99,6 @@ const loadData = async () => {
 };
 
 const eventButton = () => {
-  
-  let test = [];
 
   for (let button of buttons) {
     const category = button.getAttribute("data-category") ;
@@ -106,26 +106,21 @@ const eventButton = () => {
     button.addEventListener("click", function () {
       switch (category) { 
         case 'ingredients':
-          tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+          tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
-          data.recipes.map((recipe) => {test.push(recipe.ingredients.map(ingredient => ingredient.ingredient))}); //push data in array
-          console.log(filteredData)
-          console.log(tagIngredients)
+          console.log(tagIngredients);
           break;
         case 'appareils':
-          tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
-          tagAppliance.push(this.value)
-          console.log(tagAppliance)
+          tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" data-category="appareils" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+          tagAppliance.push(this.value);
+          console.log(tagAppliance);
           break;
         case 'ustensiles':
-          tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
-          tagUstensiles.push(this.value)
-          console.log(tagUstensiles)
-          console.log(filteredData)
-          console.log(tagUstensiles)
+          tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" data-category="ustensiles" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
+          tagUstensiles.push(this.value);
+          console.log(tagUstensiles);
         break;
       }
-
       filteredData = data.recipes.filter((recipe) => {
         return (
             recipe.appliance.includes(tagAppliance) &&
@@ -133,8 +128,9 @@ const eventButton = () => {
             recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
             );
       });
-      displayAll(filteredData)   
+      displayAll(filteredData);
       console.log(filteredData)
+      removeTag();
     });
   }
 }
@@ -148,6 +144,36 @@ const allArray = (array) => {
   allUstensils = [].concat.apply([], allUstensils); 
   allUstensils = uniq(allUstensils); // filter duplicate
  }
+
+const removeTag = () =>{
+  for (let buttonTag of buttonsTag) {
+    const category = buttonTag.getAttribute("data-category") ;
+    buttonTag.addEventListener('click', function () {
+      switch (category) { 
+        case 'ingredients':
+          tagIngredients = arrayRemove(tagIngredients,this.value)
+          buttonTag.parentNode.removeChild(buttonTag)
+          break;
+        case 'appareils':
+          tagAppliance = arrayRemove(tagAppliance,this.value)
+          buttonTag.parentNode.removeChild(buttonTag)
+          break;
+        case 'ustensiles':
+          tagUstensiles = arrayRemove(tagUstensiles,this.value)
+          buttonTag.parentNode.removeChild(buttonTag)
+        break;
+      }
+      filteredData = data.recipes.filter((recipe) => {
+        return (
+            recipe.appliance.includes(tagAppliance) &&
+            recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
+            recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
+            );
+      });
+      displayAll(filteredData);
+    });
+  }
+}
 
 //display all data
 const displayAll = (array) => {
