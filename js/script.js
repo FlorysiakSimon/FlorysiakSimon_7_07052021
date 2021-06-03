@@ -5,7 +5,7 @@ const recipesSection = document.querySelector(".recette");
 const ustensilesList = document.getElementById("ustensilesList");
 const ingredientsList = document.getElementById("ingredientsList");
 const buttons = document.getElementsByClassName('buttons');
-const buttonsTag = document.getElementsByClassName('buttonsTag')
+const buttonsTag = document.getElementsByClassName('buttonsTag');
 const searchListTextInput = document.querySelectorAll('.searchListTextInput');
 const tags = document.getElementById('tags');
 let data = []; // data
@@ -32,7 +32,6 @@ searchBar.addEventListener('keyup', (e) => {
      filteredData = data.recipes.filter((recipe) => {
       return (
           recipe.name.toLowerCase().includes(searchString) ||
-          //allIngredients.includes(searchString) ||
           recipe.ingredients.includes((ingredients) => ingredients.ingredient.includes(tagIngredients)) ||
           recipe.description.toLowerCase().includes(searchString)
       );
@@ -43,6 +42,8 @@ searchBar.addEventListener('keyup', (e) => {
     loadData();
   }
 });
+
+
 
 //dropdown input
 searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
@@ -57,7 +58,7 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
     ingredients = [].concat.apply([], ingredients); // fusionne array
     ingredients = uniq(ingredients); // filter duplicate
     ingredients = filtreTexte(ingredients,searchString);
-    ingredients.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
+    ingredients.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button data-category="ingredients" value="`+list+`"class="buttons">`+list+`</button></li>`})  
     ingredients = [];
   }
   if(value === 'appareils'){
@@ -69,7 +70,7 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
     appliance = [].concat.apply([], appliance); // fusionne array
     appliance = uniq(appliance); // filter duplicate
     appliance = filtreTexte(appliance,searchString);
-    appliance.forEach(list => {appareilsList.innerHTML += `<li class="appareilsListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
+    appliance.forEach(list => {appareilsList.innerHTML += `<li class="appareilsListItem"><button data-category="appareils" value="`+list+`"class="buttons">`+list+`</button></li>`})  
     appliance = [];
   }
   if(value === 'ustensiles'){
@@ -81,9 +82,10 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
     ustensils = [].concat.apply([], ustensils); // fusionne array
     ustensils = uniq(ustensils); // filter duplicate
     ustensils = filtreTexte(ustensils,searchString);
-    ustensils.forEach(list => {ustensilesList.innerHTML += `<li class="ustensilesListItem"><button value="`+list+`"class="buttons">`+list+`</button></li>`})  
+    ustensils.forEach(list => {ustensilesList.innerHTML += `<li class="ustensilesListItem"><button data-category="ustensiles" value="`+list+`"class="buttons">`+list+`</button></li>`})  
     ustensils = [];
   }
+  eventButton();
 }));
 
 const loadData = async () => {
@@ -99,7 +101,6 @@ const loadData = async () => {
 };
 
 const eventButton = () => {
-
   for (let button of buttons) {
     const category = button.getAttribute("data-category") ;
     if(!filteredData.length){ filteredData = data.recipes }
@@ -108,6 +109,7 @@ const eventButton = () => {
         case 'ingredients':
           tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
+          uniq(tagIngredients)
           console.log(tagIngredients);
           break;
         case 'appareils':
@@ -123,8 +125,8 @@ const eventButton = () => {
       }
       filteredData = data.recipes.filter((recipe) => {
         return (
-            recipe.appliance.includes(tagAppliance) &&
             recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
+            recipe.appliance.includes(tagAppliance) &&
             recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
             );
       });
@@ -182,7 +184,6 @@ const displayAll = (array) => {
   displayIngredients(array);
   displayUstensiles(array);
   eventButton();
-
 }
 
 const displayRecettes = (article) => {
@@ -240,4 +241,3 @@ const displayIngredients = (list) => {
  }
 
 loadData();
-

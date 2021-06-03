@@ -2,7 +2,7 @@ const searchList = document.querySelectorAll(".searchList");
 const searchListText = document.querySelectorAll(".searchListText");
 const arrow = document.querySelectorAll(".arrow")
 for (let i = 0; i < searchList.length; i++) {
-    arrow[i].addEventListener('click', () => {
+    searchList[i].addEventListener('click', () => {
         searchList[i].classList.toggle('open');
         if  (searchList[i].classList.contains('open')){
             searchListText[i].childNodes[1].style.display = "block";
