@@ -124,6 +124,7 @@ const eventButton = () => {
   }
 }
 
+
 const removeTag = () =>{
   for (let buttonTag of buttonsTag) {
     const category = buttonTag.getAttribute("data-category") ;
