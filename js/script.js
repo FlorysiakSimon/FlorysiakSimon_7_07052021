@@ -9,11 +9,8 @@ const buttonsTag = document.getElementsByClassName('buttonsTag');
 const searchListTextInput = document.querySelectorAll('.searchListTextInput');
 const tags = document.getElementById('tags');
 let data = []; // data
-let allAppliance = []; //tableau tous les appareils
 let appliance = []; //tableau appareils
-let allIngredients= [];
 let ingredients = []; //tableau ingredients
-let allUstensils = [];
 let ustensils = []; //tableau ustensiles
 let filteredData =[]; 
 let tagAppliance =[];
@@ -25,6 +22,7 @@ const filtreTexte = (arr, requete) => {
   return arr.filter(el =>  el.toLowerCase().indexOf(requete.toLowerCase()) !== -1);
 }
 const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele != value;});}
+
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
   if (searchBar.value.length > 2){
@@ -32,7 +30,7 @@ searchBar.addEventListener('keyup', (e) => {
      filteredData = data.recipes.filter((recipe) => {
       return (
           recipe.name.toLowerCase().includes(searchString) ||
-          recipe.ingredients.includes((ingredients) => ingredients.ingredient.includes(tagIngredients)) ||
+          recipe.ingredients.includes((ingredients) => ingredients.ingredient.toLowerCase().includes(tagIngredients)) ||
           recipe.description.toLowerCase().includes(searchString)
       );
     });
@@ -94,12 +92,10 @@ const loadData = async () => {
       data = await res.json();
       const recettes = data.recipes;
       displayAll(recettes);
-      allArray(recettes);
   } catch (err) {
       console.error(err);
   }
 };
-
 const eventButton = () => {
   for (let button of buttons) {
     const category = button.getAttribute("data-category") ;
@@ -109,43 +105,24 @@ const eventButton = () => {
         case 'ingredients':
           tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
-          uniq(tagIngredients)
-          console.log(tagIngredients);
+          filteredData = filteredData.filter((recipe) => {return recipe.ingredients.some((ingredients) => tagIngredients.some((el) => ingredients.ingredient.includes(el)))})
           break;
         case 'appareils':
           tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" data-category="appareils" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagAppliance.push(this.value);
-          console.log(tagAppliance);
+          filteredData = filteredData.filter((recipe) => {return recipe.appliance.includes(tagAppliance)});
           break;
         case 'ustensiles':
           tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" data-category="ustensiles" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
-          tagUstensiles.push(this.value);
-          console.log(tagUstensiles);
+          tagUstensiles.push(this.value);  
+          filteredData = filteredData.filter((recipe) => {return recipe.ustensils.some((ustensils) => tagUstensiles.some((el) => ustensils.includes(el)))})
         break;
       }
-      filteredData = data.recipes.filter((recipe) => {
-        return (
-            recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
-            recipe.appliance.includes(tagAppliance) &&
-            recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
-            );
-      });
       displayAll(filteredData);
-      console.log(filteredData)
       removeTag();
     });
   }
 }
-const allArray = (array) => {
-  array.map((recipe) => {allIngredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))}); //push data in array
-  allIngredients = [].concat.apply([], allIngredients); 
-  allIngredients = uniq(allIngredients); // filter duplicate
-  array.map((recipe) => {allAppliance.push(recipe.appliance)}); //push data in array
-  allAppliance = uniq(allAppliance); // filter duplicate
-  array.map((recipe) => {allUstensils.push(recipe.ustensils)}); //push data in array   
-  allUstensils = [].concat.apply([], allUstensils); 
-  allUstensils = uniq(allUstensils); // filter duplicate
- }
 
 const removeTag = () =>{
   for (let buttonTag of buttonsTag) {
@@ -167,8 +144,9 @@ const removeTag = () =>{
       }
       filteredData = data.recipes.filter((recipe) => {
         return (
-            recipe.appliance.includes(tagAppliance) &&
+          
             recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
+            recipe.appliance.includes(tagAppliance) &&
             recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
             );
       });
@@ -241,3 +219,4 @@ const displayIngredients = (list) => {
  }
 
 loadData();
+
