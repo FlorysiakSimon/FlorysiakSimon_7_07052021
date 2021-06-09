@@ -16,6 +16,7 @@ let filteredData =[];
 let tagAppliance =[];
 let tagIngredients = [];
 let tagUstensiles = [];
+let algo2 = []
 //FILTER 
 let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
@@ -26,15 +27,27 @@ const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele 
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
   if (searchBar.value.length > 2){
-    const searchString = e.target.value.toLowerCase();
-     filteredData = data.recipes.filter((recipe) => {
-      return (
-          recipe.name.toLowerCase().includes(searchString) ||
-          recipe.ingredients.includes((ingredients) => ingredients.ingredient.toLowerCase().includes(tagIngredients)) ||
-          recipe.description.toLowerCase().includes(searchString)
-      );
-    });
-    displayAll(filteredData);
+    //const searchString = e.target.value.toLowerCase();
+    //filteredData[i].ingredients.map(ingredient => ingredient.ingredient.toLowerCase().indexOf(e.target.value.toLowerCase() != -1) ||
+    //(recipe.ingredients.map(ingredient => ingredient.ingredient))
+    console.log(filteredData)
+    
+    for (var i = 0; i < filteredData.length; i++) {        
+      if(
+        filteredData[i].name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 &&
+        filteredData[i].description.toLowerCase().indexOf(e.target.value.toLowerCase() != -1)  &&
+        filteredData[i].ingredients.map(ingredient => ingredient.ingredient.toLowerCase().indexOf(e.target.value.toLowerCase() != -1))
+        )
+      {
+        console.log(filteredData[i])
+        algo2.push(filteredData[i])
+      }
+    }
+     console.log(filteredData)
+    
+
+    displayAll(algo2);
+    algo2 = []
    }else{
     filteredData=[];
     loadData();
@@ -55,6 +68,7 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
     filteredData.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
     ingredients = [].concat.apply([], ingredients); // fusionne array
     ingredients = uniq(ingredients); // filter duplicate
+    console.log(ingredients)
     ingredients = filtreTexte(ingredients,searchString);
     ingredients.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button data-category="ingredients" value="`+list+`"class="buttons">`+list+`</button></li>`})  
     ingredients = [];
