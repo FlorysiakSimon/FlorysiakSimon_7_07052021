@@ -26,12 +26,7 @@ const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele 
 
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
-  if (searchBar.value.length > 2){
-    //const searchString = e.target.value.toLowerCase();
-    //filteredData[i].ingredients.map(ingredient => ingredient.ingredient.toLowerCase().indexOf(e.target.value.toLowerCase() != -1) ||
-    //(recipe.ingredients.map(ingredient => ingredient.ingredient))
-    console.log(filteredData)
-    
+  if (searchBar.value.length > 2){    
     for (var i = 0; i < filteredData.length; i++) {        
       if(
         filteredData[i].name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 &&
@@ -43,9 +38,6 @@ searchBar.addEventListener('keyup', (e) => {
         algo2.push(filteredData[i])
       }
     }
-     console.log(filteredData)
-    
-
     displayAll(algo2);
     algo2 = []
    }else{
