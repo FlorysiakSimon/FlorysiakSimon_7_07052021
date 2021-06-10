@@ -46,8 +46,6 @@ searchBar.addEventListener('keyup', (e) => {
   }
 });
 
-
-
 //dropdown input
 searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   const value = e.target.getAttribute("data-value") ;
