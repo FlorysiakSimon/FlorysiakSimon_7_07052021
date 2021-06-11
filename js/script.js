@@ -105,23 +105,61 @@ const eventButton = () => {
         case 'ingredients':
           tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
-          filteredData = filteredData.filter((recipe) => {return recipe.ingredients.some((ingredients) => tagIngredients.some((el) => ingredients.ingredient.includes(el)))})
+          tagIngredients.forEach((tag) => {
+            filteredData = filterByIngredients(filteredData,tag)
+          });
           break;
         case 'appareils':
           tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" data-category="appareils" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagAppliance.push(this.value);
-          filteredData = filteredData.filter((recipe) => {return recipe.appliance.includes(tagAppliance)});
+          tagAppliance.forEach((tag) => {
+            filteredData = filterByAppliance(filteredData,tag)
+          });
           break;
         case 'ustensiles':
           tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" data-category="ustensiles" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagUstensiles.push(this.value);  
-          filteredData = filteredData.filter((recipe) => {return recipe.ustensils.some((ustensils) => tagUstensiles.some((el) => ustensils.includes(el)))})
+          tagUstensiles.forEach((tag) => {
+            filteredData = filterByUstensils(filteredData,tag)
+          });
         break;
       }
+      console.log(filteredData) 
       displayAll(filteredData);
       removeTag();
     });
   }
+}
+const filterByIngredients = (array,tag) => {
+  let arrayFiltred = [];
+  array.forEach((el) => {
+    el['ingredients'].forEach((ingredient) => {
+      if(ingredient.ingredient == tag){
+          arrayFiltred.push(el)
+      }
+    });
+  });
+  return arrayFiltred
+}
+const filterByAppliance = (array,tag) => {
+  let arrayFiltred = [];
+  array.forEach((el) => {
+      if(el.appliance == tag){
+          arrayFiltred.push(el)
+      }
+    });
+  return arrayFiltred
+}
+const filterByUstensils = (array,tag) => {
+  let arrayFiltred = [];
+  array.forEach((el) => {
+    el['ustensils'].forEach((ustensils) => {
+      if(ustensils == tag){
+          arrayFiltred.push(el)
+      }
+    });
+  });
+  return arrayFiltred
 }
 
 const removeTag = () =>{
