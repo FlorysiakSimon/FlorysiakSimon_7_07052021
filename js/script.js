@@ -16,7 +16,7 @@ let filteredData =[];
 let tagAppliance =[];
 let tagIngredients = [];
 let tagUstensiles = [];
-let algo2 = []
+let algo2 = [];
 //FILTER 
 let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
@@ -28,14 +28,18 @@ const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele 
 searchBar.addEventListener('keyup', (e) => {
   if (searchBar.value.length > 2){    
     for (var i = 0; i < filteredData.length; i++) {        
+      filteredData[i].ingredients.map((ingredient) => {
+        if(ingredient.ingredient.toLowerCase().includes(e.target.value.toLowerCase())){
+          algo2.push(filteredData[i]);
+        }
+      }) 
       if(
-        filteredData[i].name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 &&
-        filteredData[i].description.toLowerCase().indexOf(e.target.value.toLowerCase() != -1)  &&
-        filteredData[i].ingredients.map(ingredient => ingredient.ingredient.toLowerCase().indexOf(e.target.value.toLowerCase() != -1))
+        filteredData[i].name.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 ||
+        filteredData[i].description.toLowerCase().indexOf(e.target.value.toLowerCase()) != -1 
         )
       {
-        console.log(filteredData[i])
-        algo2.push(filteredData[i])
+        algo2.push(filteredData[i]);
+        algo2 = uniq(algo2)
       }
     }
     displayAll(algo2);
@@ -58,7 +62,6 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
     filteredData.map((recipe) => {ingredients.push(recipe.ingredients.map(ingredient => ingredient.ingredient))})
     ingredients = [].concat.apply([], ingredients); // fusionne array
     ingredients = uniq(ingredients); // filter duplicate
-    console.log(ingredients)
     ingredients = filtreTexte(ingredients,searchString);
     ingredients.forEach(list => {ingredientsList.innerHTML += `<li class="ingredientsListItem"><button data-category="ingredients" value="`+list+`"class="buttons">`+list+`</button></li>`})  
     ingredients = [];
@@ -184,13 +187,15 @@ const removeTag = () =>{
           buttonTag.parentNode.removeChild(buttonTag)
         break;
       }
-      filteredData = data.recipes.filter((recipe) => {
-        return (
-          
-            recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
-            recipe.appliance.includes(tagAppliance) &&
-            recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
-            );
+      filteredData = data.recipes;
+      tagAppliance.forEach((tag) => {
+        filteredData = filterByAppliance(filteredData,tag)
+      });
+      tagUstensiles.forEach((tag) => {
+        filteredData = filterByUstensils(filteredData,tag)
+      });
+      tagIngredients.forEach((tag) => {
+        filteredData = filterByIngredients(filteredData,tag)
       });
       displayAll(filteredData);
     });
