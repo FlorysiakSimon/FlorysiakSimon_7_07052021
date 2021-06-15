@@ -30,7 +30,7 @@ searchBar.addEventListener('keyup', (e) => {
      filteredData = data.recipes.filter((recipe) => {
       return (
           recipe.name.toLowerCase().includes(searchString) ||
-          recipe.ingredients.includes((ingredients) => ingredients.ingredient.toLowerCase().includes(tagIngredients)) ||
+          recipe.ingredients.some((ingredients) => ingredients.ingredient.toLowerCase().includes(searchString)) ||
           recipe.description.toLowerCase().includes(searchString)
       );
     });
