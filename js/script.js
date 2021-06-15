@@ -180,13 +180,15 @@ const removeTag = () =>{
           buttonTag.parentNode.removeChild(buttonTag)
         break;
       }
-      filteredData = data.recipes.filter((recipe) => {
-        return (
-          
-            recipe.ingredients.some((ingredients) => ingredients.ingredient.includes(tagIngredients)) &&
-            recipe.appliance.includes(tagAppliance) &&
-            recipe.ustensils.some((ustensils) => ustensils.includes(tagUstensiles))
-            );
+      filteredData = data.recipes;
+      tagAppliance.forEach((tag) => {
+        filteredData = filterByAppliance(filteredData,tag)
+      });
+      tagUstensiles.forEach((tag) => {
+        filteredData = filterByUstensils(filteredData,tag)
+      });
+      tagIngredients.forEach((tag) => {
+        filteredData = filterByIngredients(filteredData,tag)
       });
       displayAll(filteredData);
     });
