@@ -4,7 +4,7 @@
 
 - Implémenter la fonctionnalité de recherche
 - Créer et tester deux algorithmes de recherche
-  ![Lien](https://i.gyazo.com/e0a0192d19ed64a95ac6ab3307e8811a.png)
+  ![Lien](https://i.gyazo.com/a86739bcf434e7d29ac8e4619d4aa011.png)
 
 ## Technologies
 
