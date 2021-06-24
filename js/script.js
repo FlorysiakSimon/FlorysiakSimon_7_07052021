@@ -16,7 +16,6 @@ let filteredData =[];
 let tagAppliance =[];
 let tagIngredients = [];
 let tagUstensiles = [];
-let removeEvent = [];
 //FILTER 
 let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
@@ -113,7 +112,6 @@ const eventButton = () => {
         case 'ingredients':
           tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
-          removeEvent.push(this.value)
           tagIngredients.forEach((tag) => {
             filteredData = filterByIngredients(filteredData,tag);
           });
@@ -121,7 +119,6 @@ const eventButton = () => {
         case 'appareils':
           tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" data-category="appareils" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagAppliance.push(this.value);
-          removeEvent.push(this.value)
           tagAppliance.forEach((tag) => {
             filteredData = filterByAppliance(filteredData,tag)
           });
@@ -129,7 +126,6 @@ const eventButton = () => {
         case 'ustensiles':
           tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" data-category="ustensiles" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagUstensiles.push(this.value);
-          removeEvent.push(this.value)
           tagUstensiles.forEach((tag) => {
             filteredData = filterByUstensils(filteredData,tag)
           });
@@ -139,7 +135,7 @@ const eventButton = () => {
       removeTag();
       
     });
-    if(removeEvent.includes(button.value)){
+    if(tagUstensiles.includes(button.value) || tagAppliance.includes(button.value) || tagIngredients.includes(button.value)){
       button.parentElement.style.display ='none';
     }
   }
@@ -188,17 +184,14 @@ const removeTag = () =>{
       switch (category) { 
         case 'ingredients':
           tagIngredients = arrayRemove(tagIngredients,this.value);
-          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
           break;
         case 'appareils':
           tagAppliance = arrayRemove(tagAppliance,this.value);
-          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
           break;
         case 'ustensiles':
           tagUstensiles = arrayRemove(tagUstensiles,this.value);
-          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
         break;
       }
