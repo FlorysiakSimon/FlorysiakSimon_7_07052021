@@ -16,12 +16,26 @@ let filteredData =[];
 let tagAppliance =[];
 let tagIngredients = [];
 let tagUstensiles = [];
+let removeEvent = [];
 //FILTER 
 let uniq = unique => [...new Set(unique)];
 const filtreTexte = (arr, requete) => {
   return arr.filter(el =>  el.toLowerCase().indexOf(requete.toLowerCase()) !== -1);
 }
 const arrayRemove = (arr, value) => {return arr.filter(function(ele){return ele != value;});}
+
+//LOAD DATA
+const loadData = async () => {
+  try {
+      const res = await fetch('./js/data.js');
+      data = await res.json();
+      const recettes = data.recipes;
+      displayAll(recettes);
+  } catch (err) {
+      console.error(err);
+  }
+};
+
 
 //searchbar
 searchBar.addEventListener('keyup', (e) => {
@@ -34,6 +48,7 @@ searchBar.addEventListener('keyup', (e) => {
           recipe.description.toLowerCase().includes(searchString)
       );
     });
+    console.log(filteredData);
     displayAll(filteredData);
    }else{
     filteredData=[];
@@ -86,50 +101,53 @@ searchListTextInput.forEach(el => el.addEventListener('keyup', e => {
   eventButton();
 }));
 
-const loadData = async () => {
-  try {
-      const res = await fetch('./js/data.js');
-      data = await res.json();
-      const recettes = data.recipes;
-      displayAll(recettes);
-  } catch (err) {
-      console.error(err);
-  }
-};
+//EVENT BUTTON
 const eventButton = () => {
   for (let button of buttons) {
     const category = button.getAttribute("data-category") ;
+     
     if(!filteredData.length){ filteredData = data.recipes }
+   
     button.addEventListener("click", function () {
       switch (category) { 
         case 'ingredients':
           tags.innerHTML += `<button class="buttonsTag buttonsTagIngredients" data-category="ingredients" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagIngredients.push(this.value);
+          removeEvent.push(this.value)
           tagIngredients.forEach((tag) => {
-            filteredData = filterByIngredients(filteredData,tag)
+            filteredData = filterByIngredients(filteredData,tag);
           });
           break;
         case 'appareils':
           tags.innerHTML += `<button class="buttonsTag buttonsTagAppareils" data-category="appareils" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
           tagAppliance.push(this.value);
+          removeEvent.push(this.value)
           tagAppliance.forEach((tag) => {
             filteredData = filterByAppliance(filteredData,tag)
           });
           break;
         case 'ustensiles':
           tags.innerHTML += `<button class="buttonsTag buttonsTagUstensiles" data-category="ustensiles" value="${this.value}" type="button">${this.value}<i class="far fa-times-circle close"></i></button>`;
-          tagUstensiles.push(this.value);  
+          tagUstensiles.push(this.value);
+          removeEvent.push(this.value)
           tagUstensiles.forEach((tag) => {
             filteredData = filterByUstensils(filteredData,tag)
           });
         break;
       }
-      console.log(filteredData) 
       displayAll(filteredData);
       removeTag();
+      
     });
+    if(removeEvent.includes(button.value)){
+      button.parentElement.style.display ='none';
+    }
   }
 }
+
+
+
+//FILTER TAG
 const filterByIngredients = (array,tag) => {
   let arrayFiltred = [];
   array.forEach((el) => {
@@ -162,21 +180,25 @@ const filterByUstensils = (array,tag) => {
   return arrayFiltred
 }
 
+//REMOVE TAG
 const removeTag = () =>{
   for (let buttonTag of buttonsTag) {
-    const category = buttonTag.getAttribute("data-category") ;
+    const category = buttonTag.getAttribute("data-category");
     buttonTag.addEventListener('click', function () {
       switch (category) { 
         case 'ingredients':
-          tagIngredients = arrayRemove(tagIngredients,this.value)
+          tagIngredients = arrayRemove(tagIngredients,this.value);
+          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
           break;
         case 'appareils':
-          tagAppliance = arrayRemove(tagAppliance,this.value)
+          tagAppliance = arrayRemove(tagAppliance,this.value);
+          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
           break;
         case 'ustensiles':
-          tagUstensiles = arrayRemove(tagUstensiles,this.value)
+          tagUstensiles = arrayRemove(tagUstensiles,this.value);
+          removeEvent = arrayRemove(removeEvent,this.value);
           buttonTag.parentNode.removeChild(buttonTag)
         break;
       }
@@ -195,13 +217,15 @@ const removeTag = () =>{
   }
 }
 
-//display all data
+
+//display all DATA
 const displayAll = (array) => {
   displayRecettes(array);
   displayAppliance(array);
   displayIngredients(array);
   displayUstensiles(array);
   eventButton();
+ // removeDuplicate();
 }
 
 const displayRecettes = (article) => {
@@ -235,7 +259,12 @@ const displayRecettes = (article) => {
 const displayAppliance = (list) => {
   list.map((recipe) => {appliance.push(recipe.appliance)}); //push data in array
   appliance = uniq(appliance); // filter duplicate
-  const htmlAppliance = appliance.map((list) =>{return `<li class="appareilsListItem"><button data-category="appareils" class="buttons" value="${list}">${list}</button></li>`}).join('');
+  const htmlAppliance = appliance
+    .map((list) =>{
+    return `<li class="appareilsListItem">
+            <button data-category="appareils" class="buttons" value="${list}">${list}</button>
+            </li>`})
+    .join('');
   appareilsList.innerHTML = htmlAppliance;
   appliance = []; //reset array
 }
