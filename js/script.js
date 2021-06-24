@@ -225,7 +225,6 @@ const displayAll = (array) => {
   displayIngredients(array);
   displayUstensiles(array);
   eventButton();
- // removeDuplicate();
 }
 
 const displayRecettes = (article) => {
