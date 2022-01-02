@@ -12,4 +12,4 @@ HTML / SASS / Javascript orientée objet / ESlint
 
 ## Lien du projet :
 
-[github-pages](https://florysiaksimon.github.io/FlorysiakSimon_7_07052021/)
+[netlify](https://petitsplats.netlify.app/)
